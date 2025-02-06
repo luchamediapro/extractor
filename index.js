@@ -25,9 +25,9 @@ app.get('/extract-m3u8', async (req, res) => {
         // Buscar la URL del m3u8 en los scripts de la página
         $('script').each((i, script) => {
             const scriptContent = $(script).html();
-            const match = scriptContent.match(/(https?:\\/\\/[^"]+\.m3u8)/);
+            const match = scriptContent.match(/(https?:\/\/[^"']+\.m3u8)/);
             if (match) {
-                m3u8Url = match[1].replace(/\\/g, '');
+                m3u8Url = match[1];
                 return false;
             }
         });
