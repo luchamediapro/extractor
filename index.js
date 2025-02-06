@@ -35,14 +35,19 @@ app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
       }
     });
 
-    // Mostrar el HTML de la respuesta para depurar
-    console.log(response.data); // Ver contenido de la página
+    // Imprimir el HTML completo de la respuesta para depurar
+    console.log(response.data); // Esto te permitirá ver todo el contenido que estás recibiendo de Mediafire.
 
     // Cargar el contenido HTML usando cheerio
     const $ = cheerio.load(response.data);
 
-    // Buscar el enlace de descarga en la página
-    const downloadLink = $('a[href*="download"]').attr('href');
+    // Buscar todos los enlaces <a> y mostrar sus href
+    $('a').each((i, el) => {
+      console.log($(el).attr('href'));  // Esto imprimirá todos los href en la página
+    });
+
+    // Intentar buscar el enlace de descarga utilizando el texto 'Download' en el enlace
+    const downloadLink = $('a:contains("Download")').attr('href');
 
     // Verificar si se encontró el enlace de descarga
     if (downloadLink) {
