@@ -1,5 +1,6 @@
 const express = require('express');
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const cors = require('cors');
 
 const app = express();
@@ -10,35 +11,29 @@ app.use(cors());
 app.get('/extract-m3u8', async (req, res) => {
     try {
         const targetURL = "https://embed.sdfgnksbounce.com/embed2/foxsportspremium.html";
-
-        // Lanzar un navegador con Puppeteer
-        const browser = await puppeteer.launch({ headless: "new" });
-        const page = await browser.newPage();
         
-        await page.setExtraHTTPHeaders({
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            'Referer': targetURL,
-            'Origin': targetURL,
-            'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8'
-        });
-        
-        await page.goto(targetURL, { waitUntil: 'networkidle2' });
-        
-        // Extraer la URL del M3U8 desde el JavaScript de la página
-        const m3u8Url = await page.evaluate(() => {
-            const scripts = Array.from(document.scripts);
-            for (let script of scripts) {
-                if (script.textContent.includes('.m3u8')) {
-                    const match = script.textContent.match(/(https?:\\/\\/[^"']+\\.m3u8)/);
-                    if (match) {
-                        return match[1].replace(/\\/g, ''); // Quitar escapes extra
-                    }
-                }
+        // Obtener el contenido HTML de la página
+        const response = await axios.get(targetURL, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'Referer': targetURL,
+                'Origin': targetURL,
+                'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8'
             }
-            return null;
         });
         
-        await browser.close();
+        const $ = cheerio.load(response.data);
+        let m3u8Url = '';
+        
+        // Buscar la URL del m3u8 en los scripts de la página
+        $('script').each((i, script) => {
+            const scriptContent = $(script).html();
+            const match = scriptContent.match(/(https?:\/\/[^"']+\.m3u8)/);
+            if (match) {
+                m3u8Url = match[1];
+                return false;
+            }
+        });
         
         if (m3u8Url) {
             res.json({ success: true, url: m3u8Url });
