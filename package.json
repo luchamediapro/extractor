@@ -1,7 +1,7 @@
 {
-  "name": "nombre-del-proyecto",
+  "name": "mediafire-scraper",
   "version": "1.0.0",
-  "description": "Descripción del proyecto",
+  "description": "Scraper para obtener enlaces de descarga de Mediafire usando Puppeteer",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -12,5 +12,8 @@
     "cors": "^2.8.5"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": ">=14.0.0"
+  }
 }
