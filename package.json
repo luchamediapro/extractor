@@ -1,5 +1,16 @@
-"dependencies": {
-  "express": "^4.17.1",
-  "puppeteer": "^22.0.0",
-  "cors": "^2.8.5"
+{
+  "name": "nombre-del-proyecto",
+  "version": "1.0.0",
+  "description": "Descripción del proyecto",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "puppeteer": "^22.0.0",
+    "cors": "^2.8.5"
+  },
+  "author": "",
+  "license": "ISC"
 }
