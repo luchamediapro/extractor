@@ -1,31 +1,33 @@
+const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-async function getDownloadLink(mediafireUrl) {
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.get('/get-mediafire-link', async (req, res) => {
+  const { url } = req.query;
+
+  if (!url) {
+    return res.status(400).json({ error: 'Se requiere la URL de Mediafire' });
+  }
+
   try {
-    // Hacer la solicitud al enlace de Mediafire
-    const response = await axios.get(mediafireUrl);
-
-    // Usar cheerio para parsear el HTML
+    // Realizar scraping del enlace de descarga
+    const response = await axios.get(url);
     const $ = cheerio.load(response.data);
-
-    // Buscar el enlace de descarga en el HTML de Mediafire
     const downloadLink = $('a[href*="download"]').attr('href');
-    
+
     if (downloadLink) {
-      // El enlace directo de descarga
-      console.log('Enlace de descarga:', downloadLink);
-      return downloadLink;
+      res.json({ downloadLink });
     } else {
-      throw new Error('No se encontró un enlace de descarga.');
+      res.status(404).json({ error: 'Enlace de descarga no encontrado.' });
     }
   } catch (error) {
-    console.error('Error:', error.message);
+    res.status(500).json({ error: 'Error al obtener el enlace de descarga' });
   }
-}
+});
 
-// URL de Mediafire del archivo
-const mediafireUrl = 'https://www.mediafire.com/file/example/filename/file';
-
-// Llamada a la función
-getDownloadLink(mediafireUrl);
+app.listen(port, () => {
+  console.log(`Servidor proxy corriendo en http://localhost:${port}`);
+});
