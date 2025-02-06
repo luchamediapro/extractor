@@ -21,10 +21,19 @@ app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
 
   try {
     // Realizar la solicitud HTTP para obtener el contenido de la página de Mediafire
-    const response = await axios.get(url);
-    const $ = cheerio.load(response.data); // Cargar el contenido HTML
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
+    });
 
-    // Buscar el enlace de descarga en la página (esto puede variar dependiendo de la estructura de la página)
+    // Mostrar el HTML de la respuesta para depurar
+    console.log(response.data); // Ver contenido de la página
+
+    // Cargar el contenido HTML usando cheerio
+    const $ = cheerio.load(response.data);
+
+    // Buscar el enlace de descarga en la página
     const downloadLink = $('a[href*="download"]').attr('href');
 
     // Verificar si se encontró el enlace de descarga
@@ -34,8 +43,12 @@ app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
       res.status(404).json({ error: 'Enlace de descarga no encontrado.' });
     }
   } catch (error) {
-    // Manejar errores en caso de fallo en la solicitud o scraping
-    res.status(500).json({ error: 'Error al obtener el enlace de descarga' });
+    // Manejar errores y mostrar más detalles
+    console.error('Error al obtener la página:', error);
+    res.status(500).json({
+      error: 'Error al obtener el enlace de descarga',
+      details: error.message
+    });
   }
 });
 
