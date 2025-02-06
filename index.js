@@ -20,10 +20,18 @@ app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
   }
 
   try {
-    // Realizar la solicitud HTTP para obtener el contenido de la página de Mediafire
-    const response = await axios.get(url, {
+    // Usar ScraperAPI como proxy para evitar bloqueos (reemplaza YOUR_API_KEY con tu clave real)
+    const proxyUrl = `http://api.scraperapi.com?api_key=YOUR_API_KEY&url=${url}`;
+
+    // Realizar la solicitud HTTP a Mediafire a través del proxy
+    const response = await axios.get(proxyUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edge/91.0.864.59'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
       }
     });
 
