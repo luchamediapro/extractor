@@ -21,7 +21,7 @@ app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
 
   try {
     // Usar ProxyCrawl como proxy (reemplaza YOUR_API_KEY con tu clave real)
-    const proxyUrl = `https://api.proxycrawl.com?token=YOUR_API_KEY&url=${url}`;
+    const proxyUrl = `https://api.crawlbase.com/?token=tc6wsSxJV3UjEWhyvd95EQ&url=https%3A%2F%2Fgithub.com%2Fcrawlbase%3Ftab%3Drepositories`;
 
     // Realizar la solicitud HTTP a Mediafire a través del proxy
     const response = await axios.get(proxyUrl, {
