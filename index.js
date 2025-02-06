@@ -20,8 +20,8 @@ app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
   }
 
   try {
-    // Usar ScraperAPI como proxy para evitar bloqueos (reemplaza YOUR_API_KEY con tu clave real)
-    const proxyUrl = `http://api.scraperapi.com?api_key=YOUR_API_KEY&url=${url}`;
+    // Usar ProxyCrawl como proxy (reemplaza YOUR_API_KEY con tu clave real)
+    const proxyUrl = `https://api.proxycrawl.com?token=YOUR_API_KEY&url=${url}`;
 
     // Realizar la solicitud HTTP a Mediafire a través del proxy
     const response = await axios.get(proxyUrl, {
