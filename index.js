@@ -5,21 +5,20 @@ const cors = require('cors');
 // Crear la aplicación Express
 const app = express();
 
-// Habilitar CORS para permitir solicitudes de otros dominios (si es necesario)
+// Habilitar CORS para permitir solicitudes de otros dominios
 app.use(cors());
 
 // Ruta para obtener el enlace de descarga de Mediafire
 app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
   const { url } = req.query;
 
-  // Verificar si se proporcionó la URL
   if (!url) {
     return res.status(400).json({ error: 'Se requiere la URL de Mediafire' });
   }
 
   try {
     // Iniciar Puppeteer
-    const browser = await puppeteer.launch({ headless: true }); // headless: false para ver el navegador
+    const browser = await puppeteer.launch({ headless: true }); // Puedes poner headless: false para ver el navegador
     const page = await browser.newPage();
 
     // Ir a la URL proporcionada
