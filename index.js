@@ -1,5 +1,6 @@
 const express = require('express');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');  // Usamos puppeteer-core para poder usar un navegador personalizado
+const path = require('path');
 const cors = require('cors');
 
 // Crear la aplicación Express
@@ -17,11 +18,17 @@ app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
   }
 
   try {
-    // Iniciar Puppeteer
-    const browser = await puppeteer.launch({ headless: true }); // Puedes poner headless: false para ver el navegador
-    const page = await browser.newPage();
+    // Ruta del navegador en el entorno de Render
+    const browserExecutablePath = '/usr/bin/google-chrome'; // Ajusta esta ruta según lo que Render te dé
 
-    // Ir a la URL proporcionada
+    // Iniciar Puppeteer con el navegador ya instalado
+    const browser = await puppeteer.launch({
+      executablePath: browserExecutablePath,  // Usar el binario de Chrome instalado
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Estos argumentos son comunes en entornos de contenedor
+    });
+
+    const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'domcontentloaded' });
 
     // Esperar a que el enlace de descarga esté visible
