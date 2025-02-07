@@ -4,12 +4,12 @@
   "description": "Scraper para obtener enlaces de descarga de Mediafire usando Puppeteer",
   "main": "index.js",
   "scripts": {
-    "prestart": "npx puppeteer-install",  // Este script instala los binarios de Chrome si no están disponibles
+    "prestart": "npx puppeteer-install",  
     "start": "node index.js"
   },
   "dependencies": {
     "express": "^4.17.1",
-    "puppeteer-core": "^22.0.0",  // Usamos puppeteer-core para controlar qué navegador usar
+    "puppeteer-core": "^22.0.0",  
     "cors": "^2.8.5"
   },
   "author": "",
