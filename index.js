@@ -26,10 +26,16 @@ app.get('/extract-video/get-dailymotion-link', async (req, res) => {
     // Esperamos que el enlace de video esté presente en la página
     await page.waitForSelector('video');
 
-    // Extraemos la URL del video
+    // Extraemos la URL del video en formato MP4
     const videoLink = await page.evaluate(() => {
       const videoElement = document.querySelector('video');
-      return videoElement ? videoElement.src : null;
+      if (videoElement) {
+        const src = videoElement.src;
+        if (src && src.endsWith('.mp4')) {
+          return src; // Solo devolver el enlace si termina en .mp4
+        }
+      }
+      return null;
     });
 
     // Cerramos el navegador
