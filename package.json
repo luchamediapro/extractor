@@ -4,7 +4,7 @@
   "description": "Scraper para obtener enlaces de video de Dailymotion usando Puppeteer",
   "main": "index.js",
   "scripts": {
-    "preinstall": "npx puppeteer browsers install chrome",  // ⬅️ Asegurar que Chromium se instala
+    "preinstall": "npx puppeteer browsers install chrome",  
     "start": "node index.js"
   },
   "dependencies": {
