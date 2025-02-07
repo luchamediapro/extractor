@@ -13,32 +13,24 @@ app.get('/extract-video/get-dailymotion-link', async (req, res) => {
   }
 
   try {
-    // Lanzamos Puppeteer para obtener el enlace del video
+    // Lanzar Puppeteer con la versión correcta de Chrome
     const browser = await puppeteer.launch({
-      headless: true,
-      executablePath: puppeteer.executablePath(),  // Usar la versión de Chromium descargada por Puppeteer
+      headless: 'new',
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'domcontentloaded' });
 
-    // Esperamos que el enlace de video esté presente en la página
+    // Esperar el elemento <video> y obtener la URL
     await page.waitForSelector('video');
 
-    // Extraemos la URL del video en formato MP4
     const videoLink = await page.evaluate(() => {
       const videoElement = document.querySelector('video');
-      if (videoElement) {
-        const src = videoElement.src;
-        if (src && src.endsWith('.mp4')) {
-          return src; // Solo devolver el enlace si termina en .mp4
-        }
-      }
-      return null;
+      return videoElement && videoElement.src.endsWith('.mp4') ? videoElement.src : null;
     });
 
-    // Cerramos el navegador
     await browser.close();
 
     if (videoLink) {
