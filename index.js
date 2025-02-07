@@ -1,15 +1,10 @@
 const express = require('express');
-const puppeteer = require('puppeteer-core');  // Usamos puppeteer-core para poder usar un navegador personalizado
-const path = require('path');
+const puppeteer = require('puppeteer');  // Usamos Puppeteer directamente
 const cors = require('cors');
 
-// Crear la aplicación Express
 const app = express();
-
-// Habilitar CORS para permitir solicitudes de otros dominios
 app.use(cors());
 
-// Ruta para obtener el enlace de descarga de Mediafire
 app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
   const { url } = req.query;
 
@@ -18,14 +13,10 @@ app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
   }
 
   try {
-    // Ruta del navegador en el entorno de Render
-    const browserExecutablePath = '/usr/bin/google-chrome'; // Ajusta esta ruta según lo que Render te dé
-
-    // Iniciar Puppeteer con el navegador ya instalado
+    // Iniciar Puppeteer, sin necesidad de especificar la ruta del navegador
     const browser = await puppeteer.launch({
-      executablePath: browserExecutablePath,  // Usar el binario de Chrome instalado
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Estos argumentos son comunes en entornos de contenedor
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Configuración común en contenedores
     });
 
     const page = await browser.newPage();
@@ -58,7 +49,6 @@ app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
   }
 });
 
-// Iniciar el servidor
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Servidor corriendo en el puerto ${port}`);
