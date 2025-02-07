@@ -1,5 +1,6 @@
 const express = require('express');
 const puppeteer = require('puppeteer');  // Usamos Puppeteer directamente
+const path = require('path');
 const cors = require('cors');
 
 const app = express();
@@ -13,10 +14,14 @@ app.get('/extract-m3u8/get-mediafire-link', async (req, res) => {
   }
 
   try {
+    // Establecer la ruta del caché de Puppeteer
+    const cachePath = path.join(__dirname, '.cache', 'puppeteer');
+
     // Iniciar Puppeteer, sin necesidad de especificar la ruta del navegador
     const browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Configuración común en contenedores
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      userDataDir: cachePath,  // Especifica el directorio de caché
     });
 
     const page = await browser.newPage();
