@@ -1,15 +1,15 @@
 {
-  "name": "mediafire-scraper",
+  "name": "dailymotion-scraper",
   "version": "1.0.0",
-  "description": "Scraper para obtener enlaces de descarga de Mediafire usando Puppeteer",
+  "description": "Scraper para obtener enlaces de video de Dailymotion usando Puppeteer",
   "main": "index.js",
   "scripts": {
-    "prestart": "npx puppeteer install",  
+    "prestart": "npx puppeteer install",
     "start": "node index.js"
   },
   "dependencies": {
     "express": "^4.17.1",
-    "puppeteer": "^22.0.0", 
+    "puppeteer": "^22.0.0",
     "cors": "^2.8.5"
   },
   "author": "",
