@@ -16,6 +16,7 @@ app.get('/extract-video/get-dailymotion-link', async (req, res) => {
     // Lanzamos Puppeteer para obtener el enlace del video
     const browser = await puppeteer.launch({
       headless: true,
+      executablePath: '/usr/bin/google-chrome', // Ruta de Chrome en Render
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
