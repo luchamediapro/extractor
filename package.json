@@ -1,18 +1,3 @@
-{
-  "name": "dailymotion-scraper",
-  "version": "1.0.0",
-  "description": "Scraper para obtener enlaces de video de Dailymotion usando Puppeteer",
-  "main": "index.js",
-  "scripts": {
-    "preinstall": "npx puppeteer browsers install chrome",  
-    "start": "node index.js"
-  },
-  "dependencies": {
-    "express": "^4.17.1",
-    "puppeteer": "^22.0.0",
-    "cors": "^2.8.5"
-  },
-  "engines": {
-    "node": ">=14.0.0"
-  }
+"scripts": {
+  "start": "node src/server.js"
 }
