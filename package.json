@@ -4,14 +4,10 @@
   "description": "Backend para una aplicación de películas estilo Netflix",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "start": "node src/server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.2"
   }
 }
